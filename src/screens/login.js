@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
 import {View, Text, AsyncStorage, Image, StyleSheet, Alert}from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import user from '../public/user';
 import firebase from 'firebase';
-import Fire from '../public/Fire'
+import Fire from '../public/Fire';
 
 export default class FormExample extends Component {
   constructor(props){
@@ -13,46 +13,74 @@ export default class FormExample extends Component {
     this.state ={
       email : '',
       password: '',
-      id_user: '',
+      uid: '',
       data: []
     },
     this.random_id()
-  }
+  };
 
   random_id= async ()=>{
     let id = await Math.floor(Math.random() * 100000)+ 1;
     this.setState({
       id_user: id
     })
+  };
+
+  getData = () =>{
+    const rootref = firebase.database().ref();
+      const oneRef = rootref.child('users').orderByChild('email').equalTo(this.state.email).on('value', (data)=>{
+        const values = data.val()
+        if (values) {
+          const messageList = Object.keys(values).map(key =>({
+            ...values[key],
+            uid: key
+          }));
+
+          this.setState({
+            data: messageList
+          })
+          console.log(messageList)
+        }
+    })
   }
-  
+
   login = async() =>{
+    if (this.state.email === '' || this.state.password === '') {
+      alert('Insert Email and Password')
+    }else{
+      let datas = this.state.data[0]
+      this.setState({
+        uid: datas.uid
+      })
+      if(this.state.email === datas.email){
+        if (this.state.password === datas.password) {
+              const users ={
+                email: this.state.email,
+                password: this.state.password}
+                await Fire.shared.login(users, this.loginSuccess, this.loginFailed);
+
+        }else{
+
+          alert('password salah!')
+        }
+      }else{
+
+        alert('email salah!')
+      }
+    }
+    
       // let id_user = this.state.id_user
       // let id = id_user.toString()
       // await AsyncStorage.setItem('id_user',id)
       // user.id = id 
       
-      const users ={
-        email: this.state.email,
-        password: this.state.password
-      }
-      Fire.shared.login(users, this.loginSuccess, this.loginFailed);
-      
+      // const users ={
+      //   email: this.state.email,
+      //   password: this.state.password
+      // }
+      // Fire.shared.login(users, this.loginSuccess, this.loginFailed);
       //============= sukses select by email ======================
-        // const rootref = firebase.database().ref();
-        // const oneRef = rootref.child('users').orderByChild('email').equalTo(this.state.email).on('value', (data)=>{
-        //   const values = data.val()
-        //   if (values) {
-        //     const messageList = Object.keys(values).map(key =>({
-        //       ...values[key],
-        //       uid: key
-        //     }));
-
-        //     this.setState({
-        //       data: messageList
-        //     })
-        //   }
-        // })
+        
         //================ select all===========================
       // firebase.database().ref('users').once('value', (data) =>{
       //   console.log(data.toJSON())
@@ -61,16 +89,19 @@ export default class FormExample extends Component {
   }
 
   loginFailed = () =>{
-    console.warn('failed')
+    alert('Something Wrong, pls try again!')
   }
 
-  loginSuccess = () =>{
-    console.warn('sukses')
+  loginSuccess = async() =>{
+    let id = this.state.uid
+    await AsyncStorage.setItem('id_user',id)
+    user.id = id
     this.props.navigation.navigate('Home')
+    alert('Welcome To Gochat!')
   }
 
   render() {
-    console.log(this.state.data)
+
     return (
       <Container style={{flex:1}}>
         <Content style={{marginRight:15}}>
@@ -85,7 +116,9 @@ export default class FormExample extends Component {
                 <Icon name='user' style={styles.icon}/>
                 <Input placeholder="Email" value={this.state.email} onChangeText={(text) => this.setState({
                   email:text
-                })}/>
+                })}
+                  onEndEditing={this.getData}
+                />
             </Item>
             <Item style={{marginBottom:30}}>
                 <Icon name='lock' style={styles.icon}/>
