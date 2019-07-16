@@ -1,7 +1,48 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Form, Item, Input, Label, View, Button } from 'native-base';
 import {Text, StyleSheet}from 'react-native';
+import user from '../public/user';
+import firebase from 'firebase';
+import Fire from '../public/Fire'
+
+
 export default class StackedLabelExample extends Component {
+  constructor(props){
+    super(props)
+    this.state ={
+      username:'',
+      email : '',
+      password: '',
+      id_user: ''
+    },
+    this.random_id()
+  }
+
+  random_id= async ()=>{
+    let id = await Math.floor(Math.random() * 100000)+ 1;
+    this.setState({
+      id_user: id
+    })
+  }
+
+  registern = async() =>{
+    let id_user = this.state.id_user
+    let id = id_user.toString()
+    
+    const users ={
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password
+    }
+    await Fire.shared.createAccount(users)
+    await firebase.database().ref('users/'+this.state.id_user).set({
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password
+    });
+    this.props.navigation.navigate('SignIn')
+  }
+  
   render() {
     return (
       <Container style={{backgroundColor: '#F9EDE9'}}>
@@ -12,18 +53,24 @@ export default class StackedLabelExample extends Component {
           <Form>
             <Item fixedLabel style={styles.items}>
                 <Text style={{width:100, fontSize:18}}>Email</Text>
-                 <Input />
+                 <Input onChangeText={(text) => this.setState({
+                      email:text
+                 })}/>
             </Item>
             <Item fixedLabel style={styles.items}>
                 <Text style={{width:100, fontSize:18}}>Username</Text>
-                <Input />
+                <Input onChangeText={(text) => this.setState({
+                      username:text
+                 })}/>
             </Item>
             <Item fixedLabel style={styles.items}>
                 <Text style={{width:100, fontSize:18}}>Password</Text>
-                <Input />
+                <Input secureTextEntry={true} onChangeText={(text) => this.setState({
+                      password:text
+                 })}/>
             </Item>
             <Item style={{marginTop:20, borderBottomWidth: 0}}>
-                <Button rounded success style={{flex:1}} onPress={() => this.props.navigation.navigate('login')}>
+                <Button rounded success style={{flex:1}} onPress={this.registern}>
                     <Text style={{fontSize:18, fontWeight:"600"}}> REGISTERN </Text>
                 </Button>
             </Item>

@@ -1,15 +1,49 @@
-import React,{Component} from 'react'
-import {View, Text, TouchableOpacity}from 'react-native'
+// @flow
+import React from 'react';
+import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
+import {View, Text} from 'react-native'
+import Fire from '../public/Fire';
 
-export default class Dashbore extends Component {
-    render(){
-        return(
-            <View>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('editProfile')}>
-                    <Text>Masuk edit</Text>
-                </TouchableOpacity>
-                <Text>Ini Chat</Text>
-            </View>
-        )
-    }
+
+
+class chatMe extends React.Component {
+
+  static navigationOptions = ({ navigation }) => ({
+    title: (navigation.state.params || {}).name || 'Chat!',
+  });
+
+  state = {
+    messages: [],
+  };
+
+  get user() {
+    return {
+      name: this.props.navigation.state.params.name,
+      _id: Fire.shared.uid,
+    };
+  }
+
+  render() {
+    return (
+      <GiftedChat
+        messages={this.state.messages}
+        onSend={Fire.shared.send}
+        user={this.user}
+      />
+    
+    );
+  }
+
+  componentDidMount() {
+    Fire.shared.on(message =>
+      this.setState(previousState => ({
+        messages: GiftedChat.append(previousState.messages, message),
+      }))
+    );
+  }
+  componentWillUnmount() {
+    Fire.shared.off();
+  }
 }
+
+export default chatMe;
