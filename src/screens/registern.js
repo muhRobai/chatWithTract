@@ -38,7 +38,10 @@ export default class StackedLabelExample extends Component {
     await firebase.database().ref('users/'+this.state.id_user).set({
       username: this.state.username,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      longitude:'',
+      latitude:'',
+      status:''
     });
     this.props.navigation.navigate('SignIn')
   }

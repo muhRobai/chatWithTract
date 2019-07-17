@@ -6,6 +6,7 @@ import login from '../screens/login'
 import registern from '../screens/registern'
 import AuthLoadingScreen from '../public/authscreenlogin'
 import maps from '../screens/maps'
+import Uimpas from '../screens/iuMaps'
 
 const AppStack = createStackNavigator({ 
     Home: maps, 

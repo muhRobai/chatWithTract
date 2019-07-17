@@ -2,8 +2,9 @@ import React,{Component} from 'react'
 import {View, Text,TouchableOpacity, StyleSheet}from 'react-native'
 import MapView, {Marker} from 'react-native-maps'
 import Geolocation from '@react-native-community/geolocation';
+import firebase from 'firebase';
 import { Button } from 'native-base';
-
+import user from '../public/user';
 
 export default class maps extends Component {
     constructor(props){
@@ -11,7 +12,8 @@ export default class maps extends Component {
         this.state={
             name:'bambang',
             longitude:'',
-            latitude:''
+            latitude:'',
+            data:[]
         },
         this.getLocation()
     }
@@ -19,7 +21,6 @@ export default class maps extends Component {
     getLocation = async()=>{
         await Geolocation.getCurrentPosition(
            (position) => {
-             console.warn('oke')
              this.setState({
                latitude: position.coords.latitude,
                longitude: position.coords.longitude,
@@ -30,10 +31,34 @@ export default class maps extends Component {
            { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
          );
        }
+    updateLocation = async() =>{
+        if (this.state.latitude) {
+            await firebase.database().ref('users/'+ user.id).update({
+                latitude: this.state.latitude,
+                longitude: this.state.longitude
+            })
+        }
+    }
+
+    componentDidMount(){
+        firebase.database().ref('users').on('value', (data) =>{
+            let values = data.val()
+            if (values) {
+                const messageList = Object.keys(values).map(key =>({
+                  ...values[key],
+                  uid: key
+                }));
+      
+                this.setState({
+                  data: messageList
+                })
+              }
+        })
+    }
 
     render(){
-        console.warn(this.state.latitude)
         if (this.state.latitude) {
+            this.updateLocation()  
             return(
                 <View style={styles.container}>
                  <View style={styles.container}>
@@ -46,32 +71,19 @@ export default class maps extends Component {
                             longitudeDelta: 0.0121,
                         }}
                         >
-                        {/* <Marker
-                            coordinate={{
-                                latitude: -7.8258176,
-                                longitude: 110.3904768,
-                            }}>
-                            <View style={{
-                                flexDirection: 'row',
-                                width:100,
-                                height:70,
-                                backgroundColor: 'orange'
-                            }}>
-                                <View>
-                                    <Text style={{backgroundColor: '#fff'}}>ini header</Text>
-                                    <Text>{Marker.title}</Text>
-                                    <Text>{Marker.description}</Text>
-                                </View>
-                            </View>
-                        </Marker> */}
-                        <Marker
-                            coordinate={{
-                                latitude: this.state.latitude,
-                                longitude: this.state.longitude,
-                            }}
-                            title={this.state.name}
-                            description="in here"
-                        />
+                        {this.state.data.map((item)=>{
+                            return (
+                                <Marker
+                                    coordinate={{
+                                        latitude: item.latitude,
+                                        longitude: item.longitude,
+                                    }}
+                                    title={this.state.name}
+                                    description="in here"
+                                />
+                            ) 
+                        })}
+                        
                     </MapView>
                 </View>
                 </View>
