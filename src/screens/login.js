@@ -53,18 +53,15 @@ export default class FormExample extends Component {
         uid: datas.uid
       })
       if(this.state.email === datas.email){
-        if (this.state.password === datas.password) {
-              const users ={
-                email: this.state.email,
-                password: this.state.password}
-                await Fire.shared.login(users, this.loginSuccess, this.loginFailed);
-
-        }else{
-
-          alert('password salah!')
-        }
+          if (this.state.password === datas.password) {
+                const users ={
+                  email: this.state.email,
+                  password: this.state.password}
+                  await Fire.shared.login(users, this.loginSuccess, this.loginFailed);
+          }else{
+            alert('password salah!')
+          }
       }else{
-
         alert('email salah!')
       }
     }

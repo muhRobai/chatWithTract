@@ -36,3 +36,7 @@ allprojects {
         jcenter()
     }
 }
+
+/**
+ + Project-wide Gradle configuration properties
+ */

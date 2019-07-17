@@ -5,11 +5,13 @@ import editProfile from '../screens/profileEdit'
 import login from '../screens/login'
 import registern from '../screens/registern'
 import AuthLoadingScreen from '../public/authscreenlogin'
+import maps from '../screens/maps'
 
 const AppStack = createStackNavigator({ 
-    Home: dashbore, 
+    Home: maps, 
     chat:chat,
-    editProfile: editProfile
+    editProfile: editProfile,
+    maps: maps
 },{
     headerMode:'none'
 }
