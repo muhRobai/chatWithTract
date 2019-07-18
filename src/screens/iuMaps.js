@@ -13,6 +13,7 @@ import {
 } from "react-native";
 
 import MapView from "react-native-maps";
+import { Button } from "native-base";
 
 const Images = [
   { uri: "https://i.imgur.com/sNam9iJ.jpg" },
@@ -98,8 +99,8 @@ export default class screens extends Component {
           this.map.animateToRegion(
             {
               ...coordinate,
-              latitudeDelta: this.state.region.latitudeDelta,
-              longitudeDelta: this.state.region.longitudeDelta,
+              latitudeDelta: 0.02864195044303443,
+              longitudeDelta: 0.020142817690068,
             },
             350
           );
@@ -131,7 +132,6 @@ export default class screens extends Component {
     return (
       <View style={styles.container}>
         <MapView
-          ref={map => this.map = map}
           initialRegion={this.state.region}
           style={styles.container}
         >

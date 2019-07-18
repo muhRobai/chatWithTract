@@ -9,10 +9,9 @@ import maps from '../screens/maps'
 import Uimpas from '../screens/iuMaps'
 
 const AppStack = createStackNavigator({ 
-    Home: maps, 
+    Home:maps, 
     chat:chat,
-    editProfile: editProfile,
-    maps: maps
+    editProfile: editProfile
 },{
     headerMode:'none'
 }

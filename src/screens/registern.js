@@ -51,7 +51,7 @@ export default class StackedLabelExample extends Component {
       <Container style={{backgroundColor: '#F9EDE9'}}>
         <Content style={{marginRight:15}}>
             <View style={{alignSelf:'center', marginTop:20, marginBottom:30}}>
-                <Text style={styles.title}>Registern</Text>
+                <Text style={styles.title}>Register</Text>
             </View>
           <Form>
             <Item fixedLabel style={styles.items}>
@@ -73,8 +73,11 @@ export default class StackedLabelExample extends Component {
                  })}/>
             </Item>
             <Item style={{marginTop:20, borderBottomWidth: 0}}>
-                <Button rounded success style={{flex:1}} onPress={this.registern}>
-                    <Text style={{fontSize:18, fontWeight:"600"}}> REGISTERN </Text>
+                <Button rounded success style={{flex:1, marginRight:5}} onPress={this.registern}>
+                    <Text style={{fontSize:18, fontWeight:"600"}}> Register</Text>
+                </Button>
+                <Button rounded danger style={{flex:1, marginLeft:5}} onPress={() => this.props.navigation.goBack()}>
+                    <Text style={{fontSize:18, fontWeight:"600"}}> Kembali</Text>
                 </Button>
             </Item>
           </Form>
