@@ -17,7 +17,7 @@ export default class StackedLabelExample extends Component {
     },
     this.random_id()
   }
-
+  
   random_id= async ()=>{
     let id = await Math.floor(Math.random() * 100000)+ 1;
     this.setState({

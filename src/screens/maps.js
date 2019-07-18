@@ -58,7 +58,8 @@ export default class maps extends Component {
                 modalVisible: visible,
                 nama: value.username,
                 email: value.email,
-                status: value.status
+                status: value.status,
+                id: value.uid
             })
         }
         
@@ -114,6 +115,14 @@ export default class maps extends Component {
     exit = async() =>{
         await AsyncStorage.removeItem('id_user');
         this.props.navigation.navigate('SignIn')
+    }
+
+    movePage = () =>{
+        this.setState({
+            modalVisible: false
+        })
+
+        this.props.navigation.navigate('chat', this.state.id)
     }
 
     render(){
@@ -174,7 +183,7 @@ export default class maps extends Component {
                                         <Text style={styles.textModal}>{this.state.status}</Text>
                                         <Text style={{fontSize: 15, textAlign:'center'}}>{this.state.nama}</Text>
                                         <View style={{flexDirection:'row', width:'100%', paddingLeft:20, paddingRight:20}}>
-                                            <Button success style={{flex:1,marginRight:5}}>
+                                            <Button success style={{flex:1,marginRight:5}} onPress={this.movePage}>
                                                 <Text style={{textAlign:'center',width:'100%'}}>Chat</Text>
                                             </Button>
                                             <Button warning style={{flex:1, marginLeft:5}}>

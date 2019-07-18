@@ -1,0 +1,18 @@
+<MapView
+                        style={styles.map}
+                        region={{
+                            "latitude": this.state.latitude,
+                            "longitude": this.state.longitude,
+                            latitudeDelta: 0.015,
+                            longitudeDelta: 0.0121,
+                        }}
+                        >
+                        <Marker
+                            coordinate={{
+                                latitude: this.state.latitude,
+                                longitude: this.state.longitude,
+                            }}
+                            title={this.state.name}
+                            description="in here"
+                        />
+                    </MapView>

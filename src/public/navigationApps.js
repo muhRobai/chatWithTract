@@ -6,11 +6,12 @@ import login from '../screens/login'
 import registern from '../screens/registern'
 import AuthLoadingScreen from '../public/authscreenlogin'
 import maps from '../screens/maps'
+import goChat from '../screens/goChat'
 import Uimpas from '../screens/iuMaps'
 
 const AppStack = createStackNavigator({ 
     Home:maps, 
-    chat:chat,
+    chat:goChat,
     editProfile: editProfile
 },{
     headerMode:'none'
