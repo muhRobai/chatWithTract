@@ -1,6 +1,4 @@
 import {createStackNavigator, createAppContainer, createSwitchNavigator} from 'react-navigation'
-import dashbore from '../screens/dashbore'
-import chat from '../screens/chatMe'
 import editProfile from '../screens/editProfile'
 import login from '../screens/login'
 import registern from '../screens/registern'

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, Form, Item, Input, Label, View, Button } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Toast, View, Button } from 'native-base';
 import {Text, StyleSheet}from 'react-native';
 import user from '../public/user';
 import firebase from 'firebase';
-import Fire from '../public/Fire'
+import Fire from '../public/Fire';
 
 
 export default class Registern extends Component {
@@ -16,7 +16,9 @@ export default class Registern extends Component {
       id_user: '',
       image:'',
       gender:'',
-      noPhone:''
+      noPhone:'',
+      emailValid:false,
+      showToast: false
     },
     this.random_id()
   }
@@ -28,29 +30,68 @@ export default class Registern extends Component {
     })
   }
 
-  registern = async() =>{
-    let id_user = this.state.id_user
-    let id = id_user.toString()
-    
-    const users ={
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password
+  validate = () => {
+    let text = this.state.email
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+      if(reg.test(text) === false){
+          this.setState({
+            emailValid: false
+          })
+      }
+      else {
+        this.setState({
+            emailValid: true
+        })
+      }
     }
-    await Fire.shared.createAccount(users)
-    await firebase.database().ref('users/'+this.state.id_user).set({
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password,
-      gender:this.state.gender,
-      longitude:'',
-      latitude:'',
-      status:'',
-      aboutme:'',
-      noPhone:this.state.noPhone,
-      image:this.state.image
-    });
-    this.props.navigation.navigate('SignIn')
+  
+
+  registern = async() =>{
+    if (this.state.email == '' || this.state.username == '' || this.state.password == '' || this.state.image == '' || this.state.noPhone ==''|| this.state.password == '') {
+      Toast.show({
+        text: "Pelase Input Data!",
+        position:"top",
+        duration: 3000
+      })
+    }else if (this.state.password.length < 7) {
+      Toast.show({
+        text: "Password Must 8 Character!",
+        position:"top",
+        duration: 3000
+      })
+    }else if (this.state.emailValid === false) {
+      Toast.show({
+        text: "Email Not Valid!",
+        position:"top",
+        duration: 3000
+      })
+    }else {
+
+      let id_user = this.state.id_user
+      let id = id_user.toString()
+      
+      const users ={
+        username: this.state.username,
+        email: this.state.email,
+        password: this.state.password
+      }
+
+      await Fire.shared.createAccount(users)
+      await firebase.database().ref('users/'+this.state.id_user).set({
+        username: this.state.username,
+        email: this.state.email,
+        password: this.state.password,
+        gender:this.state.gender,
+        longitude:'',
+        latitude:'',
+        status:'',
+        aboutme:'',
+        noPhone:this.state.noPhone,
+        image:this.state.image
+      });
+
+      this.props.navigation.navigate('SignIn')
+    }
   }
   
   render() {
@@ -82,8 +123,9 @@ export default class Registern extends Component {
             <Item fixedLabel style={styles.items}>
                 <Text style={{width:100, fontSize:18}}>Email</Text>
                  <Input onChangeText={(text) => this.setState({
-                      email:text
-                 })}/>
+                      email:text})}
+                      onEndEditing={this.validate}
+                 />
             </Item>
             <Item fixedLabel style={styles.items}>
                 <Text style={{width:100, fontSize:18}}>Gender</Text>

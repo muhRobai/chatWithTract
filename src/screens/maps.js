@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {View, Text,TouchableOpacity, StyleSheet,Animated,Dimensions,Image,Modal,AsyncStorage}from 'react-native';
+import {View, Text,TouchableOpacity, StyleSheet,Animated,Dimensions,Image,Modal,AsyncStorage, ActivityIndicator}from 'react-native';
 import MapView, {Marker} from 'react-native-maps'
 import Geolocation from '@react-native-community/geolocation';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -24,7 +24,6 @@ export default class maps extends Component {
         this.getLocation();
         this.updateStatus();
     }
-
     updateStatus = async() =>{
         await firebase.database().ref('users/'+ user.id)
             .onDisconnect().update({
@@ -309,19 +308,12 @@ export default class maps extends Component {
             )    
         }
         return(
-            <View style={styles.container}>
-            <View style={styles.container}>
-              <MapView
-                   style={styles.map}
-                   region={{
-                       "latitude": -7.7613167,
-                       "longitude": 110.3589596,
-                       latitudeDelta: 0.015,
-                       longitudeDelta: 0.0121,
-                   }}>
-               </MapView>
-           </View>
-           </View>
+            <View style={{height:'92%'}}>
+                <View style={[styles.containerLoading, styles.horizontalLoading]}>
+                    <ActivityIndicator size="large" color="#000" />
+                    <Text style={{alignSelf:'center', marginLeft:-20}}>Loading Your's Maps...</Text>
+                </View>
+            </View>
        )    
     }
 }
@@ -335,6 +327,15 @@ const styles = StyleSheet.create({
         left:0,
         justifyContent: 'center', 
 		alignItems: 'center'
+    },
+    containerLoading: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    horizontalLoading: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10
     },
     imageModal:{
         width: "80%",

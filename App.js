@@ -1,8 +1,8 @@
 import React from "react";
-import { createStackNavigator, createAppContainer,createSwitchNavigator } from "react-navigation";
+import { createAppContainer} from "react-navigation";
 import AppNavigator from './src/public/navigationApps';
 import OneSignal from 'react-native-onesignal';
-import firebase from 'firebase'
+import { Root } from "native-base";
 //import store from './src/public/redux/store';
 
 const AppContainer = createAppContainer(AppNavigator);
@@ -41,7 +41,7 @@ export default class App extends React.Component {
 
   render() {
     return(
-       <AppContainer />
+      <Root><AppContainer /></Root>
     )
   }
 }

@@ -57,23 +57,24 @@ export default class LayoutExample extends Component {
         <ScrollView>
             <View style={{flex:1}}>
                 <View style={{flex:1, flexDirection:'row', marginBottom:20}}>
-                    <View style={{flex:1}}>
-                    {this.state.datas.gender ==="L" && this.state.datas.image === "" ? 
-                        <Image
-                            source={{uri: uriL}}
-                            style={styles.image}
-                        />
-                    : this.state.datas.gender ==="P" && this.state.datas.image === "" ?
-                        <Image
-                            source={{uri: uriP}}
-                            style={styles.image}
-                        />
-                    : 
-                        <Image
-                            source={{uri: this.state.datas.image}}
-                            style={styles.image}
-                        />
-                    }
+                <View style={{flex:1, backgroundColor:'#F5BB55'}}/>
+                    <View style={{flex:1, backgroundColor:'#46F2F3'}}>
+                        { this.state.datas.gender ==="L" && this.state.datas.image === "" ? 
+                            <Image
+                                source={{uri: uriL}}
+                                style={styles.image}
+                            />
+                        : this.state.datas.gender ==="P" && this.state.datas.image === "" ?
+                            <Image
+                                source={{uri: uriP}}
+                                style={styles.image}
+                            />
+                        : 
+                            <Image
+                                source={{uri: this.state.datas.image}}
+                                style={styles.image}
+                            />
+                        }
                     </View>
                 </View>
                 <View style={{flex:2}}>
@@ -121,6 +122,9 @@ const styles = StyleSheet.create({
         width:120,
         borderRadius:60,
         alignSelf:'center',
-        marginTop: 30,
+        marginRight: 186,
+        marginTop:20,
+        marginBottom:20
+        
     }
 })

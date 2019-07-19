@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, Form, Item, Input, Button } from 'native-base';
+import { Container, Content, Form, Item, Input, Button, Toast } from 'native-base';
 import {View, Text, AsyncStorage, Image, StyleSheet, Alert}from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -14,7 +14,9 @@ export default class Login extends Component {
       email : '',
       password: '',
       uid: '',
-      data: []
+      data: [],
+      showToast: false
+
     }
   };
 
@@ -31,7 +33,6 @@ export default class Login extends Component {
           this.setState({
             data: messageList
           })
-          console.log(messageList)
         }
     })
   }
@@ -41,22 +42,32 @@ export default class Login extends Component {
       alert('Insert Email and Password')
     }else{
       let datas = this.state.data[0]
-      this.setState({
-        uid: datas.uid
-      })
-      if(this.state.email === datas.email){
-          if (this.state.password === datas.password) {
-                const users ={
-                  email: this.state.email,
-                  password: this.state.password
-                }
-                
-                  await Fire.shared.login(users, this.loginSuccess, this.loginFailed);
-          }else{
-            alert('password salah!')
-          }
+      if (!datas) {
+          Toast.show({
+            text: "Email Wrong",
+            position:"top",
+            duration: 3000
+          })
       }else{
-        alert('email salah!')
+        this.setState({
+          uid: datas.uid
+        })
+  
+        if(this.state.email === datas.email){
+            if (this.state.password === datas.password) {
+                  const users ={
+                    email: this.state.email,
+                    password: this.state.password
+                  }
+                await Fire.shared.login(users, this.loginSuccess, this.loginFailed);
+            }else{
+              Toast.show({
+                text: "Password Wrong",
+                position:"top",
+                duration: 3000
+              })
+            }
+        }
       }
     }
     
