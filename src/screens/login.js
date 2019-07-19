@@ -7,7 +7,7 @@ import user from '../public/user';
 import firebase from 'firebase';
 import Fire from '../public/Fire';
 
-export default class FormExample extends Component {
+export default class Login extends Component {
   constructor(props){
     super(props)
     this.state ={
@@ -15,15 +15,7 @@ export default class FormExample extends Component {
       password: '',
       uid: '',
       data: []
-    },
-    this.random_id()
-  };
-
-  random_id= async ()=>{
-    let id = await Math.floor(Math.random() * 100000)+ 1;
-    this.setState({
-      id_user: id
-    })
+    }
   };
 
   getData = () =>{
@@ -56,7 +48,9 @@ export default class FormExample extends Component {
           if (this.state.password === datas.password) {
                 const users ={
                   email: this.state.email,
-                  password: this.state.password}
+                  password: this.state.password
+                }
+                
                   await Fire.shared.login(users, this.loginSuccess, this.loginFailed);
           }else{
             alert('password salah!')

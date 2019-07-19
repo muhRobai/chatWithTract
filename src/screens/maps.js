@@ -21,7 +21,15 @@ export default class maps extends Component {
             data:[],
             modalVisible: false
         },
-        this.getLocation()
+        this.getLocation();
+        this.updateStatus();
+    }
+
+    updateStatus = async() =>{
+        await firebase.database().ref('users/'+ user.id)
+            .onDisconnect().update({
+            status:'offline'
+        })
     }
 
     getLocation = async()=>{
@@ -58,8 +66,10 @@ export default class maps extends Component {
                 modalVisible: visible,
                 nama: value.username,
                 email: value.email,
+                image: value.image,
                 status: value.status,
-                id: value.uid
+                id: value.uid,
+                gender:value.gender
             })
         }
         
@@ -114,7 +124,18 @@ export default class maps extends Component {
 
     exit = async() =>{
         await AsyncStorage.removeItem('id_user');
-        this.props.navigation.navigate('SignIn')
+        this.props.navigation.navigate('SignIn');
+        await firebase.database().ref('users/'+ user.id).update({
+            status:'offline'
+        })
+    }
+
+    userProfile=()=>{
+        this.setState({
+            modalVisible: false
+        })
+
+        this.props.navigation.navigate('profilUser', this.state.id)
     }
 
     movePage = () =>{
@@ -126,6 +147,10 @@ export default class maps extends Component {
     }
 
     render(){
+
+        const uriL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdT09GRkK-hOMcQ6UKzSA6hbA07tnxfdavrkwvlCE1Zidicd12";
+        const uriP = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTcNrQj4LRFsJxyOv_L8ovgODPO9wueTQUdMHzzhCrKX5muE8w";
+
         if (this.state.latitude) {
             this.updateLocation()  
             return(
@@ -176,17 +201,34 @@ export default class maps extends Component {
                                 >
                                     <View style={styles.imageModal}>
                                     <View style={{flex:2}}>
-                                        <Image
-                                            source={{uri: "https://i.imgur.com/sNam9iJ.jpg"}}
-                                            style={styles.images}
-                                        />
-                                        <Text style={styles.textModal}>{this.state.status}</Text>
-                                        <Text style={{fontSize: 15, textAlign:'center'}}>{this.state.nama}</Text>
+                                        {this.state.gender ==="L" && this.state.image === "" ? 
+                                            <Image
+                                                source={{uri: uriL}}
+                                                style={styles.images}
+                                            />
+                                        : this.state.gender ==="P" && this.state.image === "" ?
+                                            <Image
+                                                source={{uri: uriP}}
+                                                style={styles.images}
+                                            />
+                                        : 
+                                            <Image
+                                                source={{uri: this.state.image}}
+                                                style={styles.images}
+                                            />
+                                        }
+                                        
+                                        {this.state.status === "online" ?  
+                                        <Text style={styles.textModal}>{this.state.status}</Text> 
+                                        :  
+                                        <Text style={styles.textModalred}>{this.state.status}</Text> }
+                                       
+                                        <Text style={{fontSize: 15, textAlign:'center', marginBottom:5}}>{this.state.nama}</Text>
                                         <View style={{flexDirection:'row', width:'100%', paddingLeft:20, paddingRight:20}}>
                                             <Button success style={{flex:1,marginRight:5}} onPress={this.movePage}>
                                                 <Text style={{textAlign:'center',width:'100%'}}>Chat</Text>
                                             </Button>
-                                            <Button warning style={{flex:1, marginLeft:5}}>
+                                            <Button warning style={{flex:1, marginLeft:5}} onPress={this.userProfile}>
                                                 <Text style={{textAlign:'center', width:'100%'}}>Profile</Text>
                                             </Button>
                                         </View>
@@ -221,16 +263,33 @@ export default class maps extends Component {
                                 return(
                                     <TouchableOpacity onPress={() => this.setModalVisible(true, marker)}>
                                         <View style={styles.card} key={index}>
-                                        <Image
-                                            source={{uri: "https://i.imgur.com/sNam9iJ.jpg"}}
-                                            style={styles.cardImage}
-                                            resizeMode="cover"
-                                        />
+                                        {marker.gender ==="L" && marker.image === "" ? 
+                                            <Image
+                                                source={{uri: uriL}}
+                                                style={styles.cardImage}
+                                            />
+                                        : marker.gender ==="P" && marker.image === "" ?
+                                            <Image
+                                                source={{uri: uriP}}
+                                                style={styles.cardImage}
+                                            />
+                                        : 
+                                            <Image
+                                                source={{uri: marker.image}}
+                                                style={styles.cardImage}
+                                            />
+                                        }
                                         <View style={styles.textContent}>
-                                            <Text numberOfLines={1} style={styles.cardtitle}>{marker.username}</Text>
-                                            <Text numberOfLines={1} style={styles.cardDescription}>
-                                            {marker.email}
+                                            <Text numberOfLines={1} style={[styles.cardtitle,{alignSelf:'center'}]}>{marker.username}</Text>
+                                        {marker.status === 'online' ?
+                                            <Text numberOfLines={1} style={[styles.cardDescription,{alignSelf:'center',color:'green'}]}>
+                                                {marker.status}
                                             </Text>
+                                        :
+                                            <Text numberOfLines={1} style={[styles.cardDescription,{alignSelf:'center',color:'red'}]}>
+                                                {marker.status}
+                                            </Text>
+                                        }
                                         </View>
                                         </View>
                                     </TouchableOpacity>
@@ -238,7 +297,7 @@ export default class maps extends Component {
                             }
                         })}
                     </Animated.ScrollView>
-                    <TouchableOpacity style={styles.fab} onPress={()=>this.props.navigation.navigate('Chat')}>
+                    <TouchableOpacity style={styles.fab} onPress={()=>this.props.navigation.navigate('profile')}>
                         <Icon name="user" size={25} color='#5ba4e5'/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.fabRight} onPress={this.exit}>
@@ -296,7 +355,13 @@ const styles = StyleSheet.create({
     },
     textModal:{
         textAlign:'center',
-        color:'#0CF60B',
+        color:'green',
+        marginTop:2,
+        fontWeight:"800"
+    },
+    textModalred:{
+        color:'red',
+        textAlign:'center',
         marginTop:2,
         fontWeight:"800"
     },

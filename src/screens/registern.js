@@ -6,14 +6,17 @@ import firebase from 'firebase';
 import Fire from '../public/Fire'
 
 
-export default class StackedLabelExample extends Component {
+export default class Registern extends Component {
   constructor(props){
     super(props)
     this.state ={
       username:'',
       email : '',
       password: '',
-      id_user: ''
+      id_user: '',
+      image:'',
+      gender:'',
+      noPhone:''
     },
     this.random_id()
   }
@@ -39,9 +42,13 @@ export default class StackedLabelExample extends Component {
       username: this.state.username,
       email: this.state.email,
       password: this.state.password,
+      gender:this.state.gender,
       longitude:'',
       latitude:'',
-      status:''
+      status:'',
+      aboutme:'',
+      noPhone:this.state.noPhone,
+      image:this.state.image
     });
     this.props.navigation.navigate('SignIn')
   }
@@ -55,12 +62,6 @@ export default class StackedLabelExample extends Component {
             </View>
           <Form>
             <Item fixedLabel style={styles.items}>
-                <Text style={{width:100, fontSize:18}}>Email</Text>
-                 <Input onChangeText={(text) => this.setState({
-                      email:text
-                 })}/>
-            </Item>
-            <Item fixedLabel style={styles.items}>
                 <Text style={{width:100, fontSize:18}}>Username</Text>
                 <Input onChangeText={(text) => this.setState({
                       username:text
@@ -72,6 +73,31 @@ export default class StackedLabelExample extends Component {
                       password:text
                  })}/>
             </Item>
+            <Item fixedLabel style={styles.items}>
+                <Text style={{width:100, fontSize:18}}>Image</Text>
+                <Input onChangeText={(text) => this.setState({
+                      image:text
+                 })}/>
+            </Item>
+            <Item fixedLabel style={styles.items}>
+                <Text style={{width:100, fontSize:18}}>Email</Text>
+                 <Input onChangeText={(text) => this.setState({
+                      email:text
+                 })}/>
+            </Item>
+            <Item fixedLabel style={styles.items}>
+                <Text style={{width:100, fontSize:18}}>Gender</Text>
+                 <Input onChangeText={(text) => this.setState({
+                      gender:text
+                 })}/>
+            </Item>
+            <Item fixedLabel style={styles.items}>
+                <Text style={{width:100, fontSize:18}}>Phone Number</Text>
+                 <Input onChangeText={(text) => this.setState({
+                      noPhone:text
+                 })}/>
+            </Item>
+            
             <Item style={{marginTop:20, borderBottomWidth: 0}}>
                 <Button rounded success style={{flex:1, marginRight:5}} onPress={this.registern}>
                     <Text style={{fontSize:18, fontWeight:"600"}}> Register</Text>
