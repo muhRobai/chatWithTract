@@ -1,4 +1,16 @@
-# goChat
+<h1 align='center'>React Native Note App - RESTful API</h1>
+
+<p align='center'>
+  <img src='https://smarttechies.files.wordpress.com/2015/10/node-express.png?w=605' />
+  </a>
+</p>
+
+<br>
+<br>
+
+## Introduction
+[![React Native](https://img.shields.io/badge/Express%20-4.17.1-blue.svg?style=rounded-square)](https://expressjs.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-v.11.15-green.svg?style=rounded-square)](https://nodejs.org/)
 
 ## Description
 
