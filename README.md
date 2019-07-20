@@ -9,7 +9,7 @@
 <br>
 
 ## Introduction
-[![React Native](https://img.shields.io/badge/React-Native-60.03.1-blue.svg?style=rounded-square)](https://expressjs.com/)
+[![React Native]("https://badge.fury.io/js/react-native.svg")](https://expressjs.com/)
 [![Node.js](https://img.shields.io/badge/Node.js-v.11.15-green.svg?style=rounded-square)](https://nodejs.org/)
 
 this application is made by using react native as a front end and firebase as a back end. This application can be used to get location and communicate from registered users
