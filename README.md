@@ -40,16 +40,23 @@ https://drive.google.com/file/d/1AvAMLlFYn1hHn8qrLgpYk92lGH3OFnyT/view?usp=shari
 <span>
 <tr>
   <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(1).png" width="100px;" alt="Muhammad Juwarno"/></td>
-  <td><img src="assets/image/image1(1)" width="100px;" alt="Muhammad Juwarno"/></td>
+  <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(2).png" width="100px;" alt="Muhammad Juwarno"/></td>
 </tr>
 <tr>
-  <td><img src="assets/image/image1(1)" width="100px;" alt="Muhammad Juwarno"/></td>
-  <td><img src="assets/image/image1(1)" width="100px;" alt="Muhammad Juwarno"/></td>
+  <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(3).png" width="100px;" alt="Muhammad Juwarno"/></td>
+  <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(4).png" width="100px;" alt="Muhammad Juwarno"/></td>
 </tr>
 <tr>
-  <td><img src="assets/image/image1(1)" width="100px;" alt="Muhammad Juwarno"/></td>
-  <td><img src="assets/image/image1(1)" width="100px;" alt="Muhammad Juwarno"/></td>
+  <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(5).png" width="100px;" alt="Muhammad Juwarno"/></td>
+  <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(6).png" width="100px;" alt="Muhammad Juwarno"/></td>
 </tr>
+ <tr>
+   <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(7).png" width="100px;" alt="Muhammad Juwarno"/></td>
+  <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(8).png" width="100px;" alt="Muhammad Juwarno"/></td>
+ </td>
+  <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(9).png" width="100px;" alt="Muhammad Juwarno"/></td>
+</tr>
+  
 </span>
 </p>
 
