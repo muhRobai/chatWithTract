@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Form, Item, Input, View, Button } from 'native-base';
-import {Text, StyleSheet}from 'react-native';
+import {Text, StyleSheet, Picker}from 'react-native';
 import user from '../public/user';
 import firebase from 'firebase';
 
@@ -15,7 +15,7 @@ export default class editProfile extends Component {
       id_user: user.id,
       image:this.props.navigation.state.params.image,
       noPhone:this.props.navigation.state.params.noPhone,
-      gender: this.props.navigation.state.params.gender
+      gender: this.props.navigation.state.params.gender,
     },
     this.random_id()
   }
@@ -34,7 +34,8 @@ export default class editProfile extends Component {
         email: this.state.email,
         gender: this.state.gender,
         noPhone: this.state.noPhone,
-        aboutMe: this.state.aboutMe
+        aboutMe: this.state.aboutMe,
+
     }) 
         this.props.navigation.navigate('profile')
   }
@@ -75,12 +76,6 @@ export default class editProfile extends Component {
                 <Text style={{width:100, fontSize:18}}>Phone Number</Text>
                  <Input value={this.state.noPhone} onChangeText={(text) => this.setState({
                       noPhone:text
-                 })}/>
-            </Item>
-            <Item fixedLabel style={styles.items}>
-                <Text style={{width:100, fontSize:18}}>Gender</Text>
-                 <Input value ={this.state.gender} onChangeText={(text) => this.setState({
-                      gender:text
                  })}/>
             </Item>
             <Item style={{marginTop:20, borderBottomWidth: 0}}>

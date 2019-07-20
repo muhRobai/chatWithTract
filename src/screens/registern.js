@@ -1,27 +1,47 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Form, Item, Input, Toast, View, Button } from 'native-base';
-import {Text, StyleSheet}from 'react-native';
+import {Text, StyleSheet,Picker}from 'react-native';
 import user from '../public/user';
 import firebase from 'firebase';
 import Fire from '../public/Fire';
+import Geolocation from '@react-native-community/geolocation';
 
 
 export default class Registern extends Component {
   constructor(props){
     super(props)
+    this.getLocation();
     this.state ={
       username:'',
       email : '',
       password: '',
       id_user: '',
       image:'',
-      gender:'',
+      gender:'L',
       noPhone:'',
+      longitude:'',
+      latitude:'',
       emailValid:false,
-      showToast: false
+      showToast: false,
+      choosenIndex: 0
     },
-    this.random_id()
+    this.random_id();
+    
   }
+
+  getLocation = async()=>{
+    await Geolocation.getCurrentPosition(
+       (position) => {
+         this.setState({
+           latitude: position.coords.latitude,
+           longitude: position.coords.longitude,
+           error: null,
+         });
+       },
+       (error) => this.setState({ error: error.message }),
+       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+     );
+   }
   
   random_id= async ()=>{
     let id = await Math.floor(Math.random() * 100000)+ 1;
@@ -47,9 +67,9 @@ export default class Registern extends Component {
   
 
   registern = async() =>{
-    if (this.state.email == '' || this.state.username == '' || this.state.password == '' || this.state.image == '' || this.state.noPhone ==''|| this.state.password == '') {
+    if (this.state.email == '' || this.state.username == '' || this.state.password == '' || this.state.noPhone ==''|| this.state.password == '') {
       Toast.show({
-        text: "Pelase Input Data!",
+        text: "Pelase Insert Data!",
         position:"top",
         duration: 3000
       })
@@ -62,6 +82,12 @@ export default class Registern extends Component {
     }else if (this.state.emailValid === false) {
       Toast.show({
         text: "Email Not Valid!",
+        position:"top",
+        duration: 3000
+      })
+    }else if (this.state.noPhone < 12) {
+      Toast.show({
+        text: "Number Phone must between 11 - 14 character",
         position:"top",
         duration: 3000
       })
@@ -82,10 +108,10 @@ export default class Registern extends Component {
         email: this.state.email,
         password: this.state.password,
         gender:this.state.gender,
-        longitude:'',
-        latitude:'',
+        longitude:this.state.longitude,
+        latitude:this.state.latitude,
         status:'',
-        aboutme:'',
+        aboutMe:'',
         noPhone:this.state.noPhone,
         image:this.state.image
       });
@@ -95,6 +121,8 @@ export default class Registern extends Component {
   }
   
   render() {
+    console.log(this.state.gender);
+    
     return (
       <Container style={{backgroundColor: '#F9EDE9'}}>
         <Content style={{marginRight:15}}>
@@ -129,9 +157,14 @@ export default class Registern extends Component {
             </Item>
             <Item fixedLabel style={styles.items}>
                 <Text style={{width:100, fontSize:18}}>Gender</Text>
-                 <Input onChangeText={(text) => this.setState({
-                      gender:text
-                 })}/>
+                <Picker style={styles.pickerStyle}  
+                        selectedValue={this.state.gender}  
+                        onValueChange={(itemValue, itemPosition) =>  
+                            this.setState({gender: itemValue, choosenIndex: itemPosition})}  
+                    > 
+                    <Picker.Item label="Male" value="L" />  
+                    <Picker.Item label="Female" value="P" />  
+                </Picker>
             </Item>
             <Item fixedLabel style={styles.items}>
                 <Text style={{width:100, fontSize:18}}>Phone Number</Text>
@@ -170,5 +203,11 @@ const styles = StyleSheet.create({
         borderBottomColor: '#383234',
         borderBottomWidth: 1,
         marginBottom:3
-    }
+    },
+    pickerStyle:{  
+      height: 50,  
+      width: "100%",  
+      color: '#344953',  
+      justifyContent: 'center',  
+  }  
 })

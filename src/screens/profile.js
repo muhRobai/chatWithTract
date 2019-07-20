@@ -54,6 +54,7 @@ export default class Profile extends Component {
         await AsyncStorage.removeItem('id_user');
         this.props.navigation.navigate('SignIn');
         await firebase.database().ref().child('users/'+user.id).remove();
+        user.id =''
     }
 
   render() {
@@ -79,12 +80,12 @@ export default class Profile extends Component {
                 <View style={{flex:1, flexDirection:'row', marginBottom:20}}>
                     <View style={{flex:1, backgroundColor:'#F5BB55'}}/>
                     <View style={{flex:1, backgroundColor:'#46F2F3'}}>
-                        { this.state.datas.gender ==="L" && this.state.datas.image === "" ? 
+                        { this.state.datas.gender === "L" && this.state.datas.image === "" ? 
                             <Image
                                 source={{uri: uriL}}
                                 style={styles.image}
                             />
-                        : this.state.datas.gender ==="P" && this.state.datas.image === "" ?
+                        : this.state.datas.gender === "P" && this.state.datas.image === "" ?
                             <Image
                                 source={{uri: uriP}}
                                 style={styles.image}
@@ -113,7 +114,11 @@ export default class Profile extends Component {
                             <Text style={{fontSize:14}}>-</Text>
                         }
                             <Text style={{fontSize:17, marginTop:10}}>Gender</Text>
-                            <Text style={{fontSize:14}}>{this.state.datas.gender}</Text>    
+                        {this.state.datas.gender === 'L' ?
+                            <Text style={{fontSize:14}}>Man</Text>
+                        :
+                            <Text style={{fontSize:14}}>Women</Text>
+                        }    
                         </View>
                         <View style={{flexDirection:'row', marginTop:20}}>
                         {this.state.btnmasuk === false ? 

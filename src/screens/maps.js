@@ -25,10 +25,13 @@ export default class maps extends Component {
         this.updateStatus();
     }
     updateStatus = async() =>{
-        await firebase.database().ref('users/'+ user.id)
-            .onDisconnect().update({
-            status:'offline'
-        })
+        let uid = await AsyncStorage.getItem('id_user');
+        if (uid === user.id) {
+            await firebase.database().ref('users/'+ user.id)
+                .onDisconnect().update({
+                status:'offline'
+            })
+        }
     }
 
     getLocation = async()=>{
@@ -122,11 +125,17 @@ export default class maps extends Component {
     }
 
     exit = async() =>{
-        await AsyncStorage.removeItem('id_user');
-        this.props.navigation.navigate('SignIn');
-        await firebase.database().ref('users/'+ user.id).update({
-            status:'offline'
-        })
+        let uid = await AsyncStorage.getItem('id_user');
+        if (uid === user.id) {
+            await AsyncStorage.removeItem('id_user');
+            this.props.navigation.navigate('SignIn');
+            await firebase.database().ref('users/'+ user.id).update({
+                status:'offline'
+            })
+        }else{
+            this.props.navigation.navigate('SignIn');
+        }
+
     }
 
     userProfile=()=>{

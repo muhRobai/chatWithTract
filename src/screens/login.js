@@ -39,7 +39,11 @@ export default class Login extends Component {
 
   login = async() =>{
     if (this.state.email === '' || this.state.password === '') {
-      alert('Insert Email and Password')
+        Toast.show({
+          text: "Please Insert Username and Password",
+          position:"top",
+          duration: 3000
+        })
     }else{
       let datas = this.state.data[0]
       if (!datas) {

@@ -92,6 +92,12 @@ export default class LayoutExample extends Component {
                         :
                             <Text style={{fontSize:14}}>-</Text>
                         }
+                            <Text style={{fontSize:17, marginTop:10}}>Gender</Text>
+                        {this.state.datas.gender === 'L' ?
+                            <Text style={{fontSize:14}}>Man</Text>
+                        :
+                            <Text style={{fontSize:14}}>Women</Text>
+                        }    
                         </View>
                         <View style={{flex:1, marginTop: 20}}>
                             <View style={{marginBottom:20}}>
