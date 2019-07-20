@@ -59,6 +59,14 @@ https://drive.google.com/file/d/1AvAMLlFYn1hHn8qrLgpYk92lGH3OFnyT/view?usp=shari
 </span>
 </p>
 
-## Preview Work Flow goChat
+## Preview Workflow goChat
 
+<p align='center'>
+<span>
+<tr>
+  <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(5).png" width="400px;" alt="Muhammad Juwarno"/></td>
+  <td><img src="https://github.com/muhRobai/goChat/blob/master/assets/image/image1%20(6).png" width="400px;" alt="Muhammad Juwarno"/></td>
+</tr>
+</span>
+</p>
 
