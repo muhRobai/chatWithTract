@@ -1,4 +1,4 @@
-<h1 align='center'>React Native Note App - RESTful API</h1>
+<h1 align='center'>Simple Chat With Tracking</h1>
 
 <p align='center'>
   <img src='https://cdn-images-1.medium.com/max/2400/1*iTAHnz8gq1UkwTa_1sGYdw.png' />
@@ -9,8 +9,6 @@
 <br>
 
 ## Introduction
-[![React Native]("https://badge.fury.io/js/react-native.svg")](https://expressjs.com/)
-[![Node.js](https://img.shields.io/badge/Node.js-v.11.15-green.svg?style=rounded-square)](https://nodejs.org/)
 
 this application is made by using react native as a front end and firebase as a back end. This application can be used to get location and communicate from registered users
 
